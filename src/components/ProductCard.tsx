@@ -1,73 +1,81 @@
-import { Trash2 } from "lucide-react";
-import type { Product } from "./AddItemModal";
+import { Link } from "react-router-dom";
+import { ShoppingBag, Star } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import type { Product } from "@/data/products";
 
 interface ProductCardProps {
   product: Product;
-  onDelete: (id: string) => void;
+  className?: string;
 }
 
-const PLACEHOLDER_COLORS = [
-  "hsl(38 30% 90%)",
-  "hsl(18 20% 88%)",
-  "hsl(200 15% 88%)",
-  "hsl(150 10% 86%)",
-];
+export default function ProductCard({ product, className = "" }: ProductCardProps) {
+  const { addItem } = useCart();
 
-export default function ProductCard({ product, onDelete }: ProductCardProps) {
-  const colorIndex = product.id.charCodeAt(0) % PLACEHOLDER_COLORS.length;
-  const bgColor = PLACEHOLDER_COLORS[colorIndex];
+  const handleQuickAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(product, product.sizes[2] || product.sizes[0]);
+  };
 
   return (
-    <div className="group relative bg-card shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden animate-fade-in">
+    <Link to={`/shop/${product.id}`} className={`group block ${className}`}>
       {/* Image */}
-      <div className="relative overflow-hidden aspect-[3/4]" style={{ backgroundColor: bgColor }}>
-        {product.imageUrl ? (
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = "none";
-            }}
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="font-display text-4xl text-foreground/20">
-              {product.name.charAt(0)}
-            </span>
-          </div>
-        )}
-        {/* Category badge */}
-        <span className="absolute top-3 left-3 text-[10px] tracking-[0.15em] uppercase bg-card/90 backdrop-blur-sm px-2.5 py-1 text-foreground">
-          {product.category}
-        </span>
-        {/* Delete button */}
-        <button
-          onClick={() => onDelete(product.id)}
-          className="absolute top-3 right-3 p-1.5 bg-card/80 backdrop-blur-sm text-destructive opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive hover:text-destructive-foreground rounded"
-          aria-label="Delete item"
-        >
-          <Trash2 size={14} />
-        </button>
-      </div>
+      <div className="relative overflow-hidden aspect-[3/4] bg-secondary">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
 
-      {/* Info */}
-      <div className="p-4">
-        <h3 className="font-display text-lg text-foreground leading-tight">{product.name}</h3>
-        {product.description && (
-          <p className="text-muted-foreground text-sm mt-1 line-clamp-2 font-body">
-            {product.description}
-          </p>
-        )}
-        <div className="flex items-center justify-between mt-3">
-          <span className="font-body font-semibold text-foreground">
-            ${product.price.toFixed(2)}
+        {/* Badge */}
+        {product.badge && (
+          <span
+            className={`absolute top-3 left-3 text-[10px] font-body font-bold tracking-widest px-2 py-1 ${
+              product.badge === "SALE"
+                ? "bg-destructive text-destructive-foreground"
+                : product.badge === "BESTSELLER"
+                ? "gradient-accent text-accent-foreground"
+                : "bg-foreground text-background"
+            }`}
+          >
+            {product.badge}
           </span>
-          <button className="text-[10px] tracking-[0.15em] uppercase text-accent font-body font-medium hover:underline">
-            View
+        )}
+
+        {/* Quick add */}
+        <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          <button
+            onClick={handleQuickAdd}
+            className="w-full bg-accent text-accent-foreground py-3 flex items-center justify-center gap-2 font-display text-sm tracking-widest hover:opacity-90 transition-opacity"
+          >
+            <ShoppingBag size={14} />
+            QUICK ADD
           </button>
         </div>
       </div>
-    </div>
+
+      {/* Info */}
+      <div className="pt-3 space-y-1">
+        <div className="flex items-center gap-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star
+              key={i}
+              size={10}
+              className={i < Math.floor(product.rating) ? "text-accent fill-accent" : "text-muted-foreground"}
+            />
+          ))}
+          <span className="text-muted-foreground text-[10px] font-body ml-1">({product.reviews})</span>
+        </div>
+        <h3 className="font-display text-lg leading-tight group-hover:text-accent transition-colors">
+          {product.name}
+        </h3>
+        <div className="flex items-center gap-2">
+          <span className="font-body font-semibold text-foreground">${product.price}</span>
+          {product.originalPrice && (
+            <span className="font-body text-sm text-muted-foreground line-through">${product.originalPrice}</span>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }

@@ -2,54 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 38 30% 97%;
-    --foreground: 20 15% 12%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 15% 12%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 15% 12%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 20 15% 12%;
-    --primary-foreground: 38 30% 97%;
+    --primary: 0 0% 96%;
+    --primary-foreground: 0 0% 4%;
 
-    --secondary: 38 20% 92%;
-    --secondary-foreground: 20 15% 20%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 38 15% 90%;
-    --muted-foreground: 20 10% 50%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 55%;
 
-    --accent: 18 65% 48%;
-    --accent-foreground: 38 30% 97%;
+    --accent: 47 100% 50%;
+    --accent-foreground: 0 0% 4%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 38 30% 97%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 96%;
 
-    --border: 38 15% 85%;
-    --input: 38 15% 85%;
-    --ring: 18 65% 48%;
+    --border: 0 0% 15%;
+    --input: 0 0% 12%;
+    --ring: 47 100% 50%;
 
-    --radius: 0.25rem;
+    --radius: 0rem;
 
     /* Custom tokens */
-    --hero-overlay: linear-gradient(to right, hsl(20 15% 12% / 0.65), hsl(20 15% 12% / 0.1));
-    --shadow-card: 0 2px 20px -4px hsl(20 15% 12% / 0.1);
-    --shadow-card-hover: 0 8px 40px -8px hsl(20 15% 12% / 0.2);
-    --gradient-accent: linear-gradient(135deg, hsl(18 65% 48%), hsl(22 70% 38%));
+    --glow-accent: 0 0 30px hsl(47 100% 50% / 0.4);
+    --shadow-dark: 0 4px 40px hsl(0 0% 0% / 0.6);
+    --gradient-dark: linear-gradient(to bottom, hsl(0 0% 4% / 0), hsl(0 0% 4%));
+    --gradient-accent: linear-gradient(135deg, hsl(47 100% 50%), hsl(38 100% 45%));
 
-    --sidebar-background: 38 30% 97%;
-    --sidebar-foreground: 20 15% 12%;
-    --sidebar-primary: 20 15% 12%;
-    --sidebar-primary-foreground: 38 30% 97%;
-    --sidebar-accent: 38 20% 92%;
-    --sidebar-accent-foreground: 20 15% 12%;
-    --sidebar-border: 38 15% 85%;
-    --sidebar-ring: 18 65% 48%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 47 100% 50%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 47 100% 50%;
   }
 }
 
@@ -60,36 +60,58 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
 
   h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.05em;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.05em;
   }
 
   .font-body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
 
-  .shadow-card {
-    box-shadow: var(--shadow-card);
-  }
-
-  .shadow-card-hover {
-    box-shadow: var(--shadow-card-hover);
+  .glow-accent {
+    box-shadow: var(--glow-accent);
   }
 
   .gradient-accent {
     background: var(--gradient-accent);
   }
 
-  .hero-overlay {
-    background: var(--hero-overlay);
+  .gradient-dark {
+    background: var(--gradient-dark);
+  }
+
+  .text-accent {
+    color: hsl(var(--accent));
+  }
+
+  .bg-accent-uv {
+    background-color: hsl(var(--accent));
+  }
+
+  .border-accent-uv {
+    border-color: hsl(var(--accent));
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .clip-diagonal {
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
   }
 }
